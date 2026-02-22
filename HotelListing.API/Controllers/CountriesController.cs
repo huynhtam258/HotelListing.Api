@@ -1,9 +1,8 @@
 ﻿using HotelListing.API.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
-namespace HotelListing.API.Controllers;
+namespace HotelListing.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,7 +13,6 @@ public class CountriesController(HotelListingDbContext context) : ControllerBase
     public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
     {
         var countries = await context.Countries.ToListAsync();
-        Console.WriteLine(JsonSerializer.Serialize(countries));
         // process countries
         return countries;
     }
@@ -23,7 +21,9 @@ public class CountriesController(HotelListingDbContext context) : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Country>> GetCountry(int id)
     {
-        var country = await context.Countries.FindAsync(id);
+        var country = await context.Countries
+            .Include(c => c.Hotels) // Eager loading the Hotels navigation property
+            .FirstOrDefaultAsync(q => q.CountryId == id);
 
         if (country == null)
         {
