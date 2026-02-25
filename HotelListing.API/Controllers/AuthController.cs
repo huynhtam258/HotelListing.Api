@@ -8,21 +8,20 @@ namespace HotelListing.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(IUserService userService): BaseApiController
+[AllowAnonymous]
+public class AuthController(IUsersService usersService): BaseApiController
 {
-    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<RegisteredUserDto>> Register(RegisterUserDto registerUserDto)
     {
-        var result = await userService.RegisterAsync(registerUserDto);
+        var result = await usersService.RegisterAsync(registerUserDto);
         return ToActionResult(result);
     }
 
-    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(LoginUserDto loginUserDto)
     {
-        var result = await userService.LoginAsync(loginUserDto);
+        var result = await usersService.LoginAsync(loginUserDto);
         return ToActionResult(result);
     }
 }

@@ -1,11 +1,13 @@
 ﻿using HotelListing.API.Contracts;
 using HotelListing.API.DTOs.Hotel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelListing.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class HotelsController(IHotelsService hotelsService) : BaseApiController
 {
     // GET: api/Hotels

@@ -6,7 +6,7 @@ using HotelListing.API.Results;
 using Microsoft.AspNetCore.Identity;
 namespace HotelListing.API.Services;
 
-public class UserService(UserManager<ApplicationUser> userManager) : IUserService
+public class UsersService(UserManager<ApplicationUser> userManager) : IUsersService
 {
 
     public async Task<Result<RegisteredUserDto>> RegisterAsync(RegisterUserDto registerUserDto)

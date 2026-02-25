@@ -1,9 +1,12 @@
 
 using HotelListing.Api.Services;
+using HotelListing.API.Constants;
 using HotelListing.API.Contracts;
 using HotelListing.API.Data;
+using HotelListing.API.Handlers;
 using HotelListing.API.MappingProfiles;
 using HotelListing.API.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +18,16 @@ builder.Services.AddDbContext<HotelListingDbContext>(options => options.UseSqlSe
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<HotelListingDbContext>();
-builder.Services.AddAuthentication();
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = AuthenticationDefaults.BasicScheme;
+    options.DefaultChallengeScheme = AuthenticationDefaults.BasicScheme;
+}).AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(AuthenticationDefaults.BasicScheme, _ => { });
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IHotelsService, HotelsService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 builder.Services.AddAutoMapper(cfg => {
     cfg.AddProfile<HotelMappingProfile>();

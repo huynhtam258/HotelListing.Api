@@ -1,11 +1,13 @@
 ﻿using HotelListing.API.Contracts;
 using HotelListing.API.DTOs.Country;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelListing.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class CountriesController(ICountriesService countriesService) : BaseApiController
 {
     // GET: api/Countries
