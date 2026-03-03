@@ -1,4 +1,4 @@
-﻿using HotelListing.API.Constants;
+using HotelListing.API.Constants;
 using HotelListing.API.Contracts;
 using HotelListing.API.Data;
 using HotelListing.API.DTOs.Auth;
@@ -14,7 +14,7 @@ public class UsersService(UserManager<ApplicationUser> userManager) : IUsersServ
         var user = new ApplicationUser
         {
             Email = registerUserDto.Email,
-            FristName = registerUserDto.FirstName,
+            FirstName = registerUserDto.FirstName,
             LastName = registerUserDto.LastName,
             UserName = registerUserDto.Email
         };
