@@ -29,12 +29,16 @@ public class UsersService(UserManager<ApplicationUser> userManager, IConfigurati
             var errors = result.Errors.Select(e => new Error(ErrorCodes.BadRequest, e.Description)).ToArray();
             return Result<RegisteredUserDto>.BadRequest(errors);
         }
+
+        await userManager.AddToRoleAsync(user, registerUserDto.Role);
+
         var regiteredUser = new RegisteredUserDto
         {
             Email = registerUserDto.Email,
             FirstName = registerUserDto.FirstName,
             LastName = registerUserDto.LastName,
-            Id = user.Id
+            Id = user.Id,
+            Role = registerUserDto.Role
         };
 
         return Result<RegisteredUserDto>.Success(regiteredUser);
