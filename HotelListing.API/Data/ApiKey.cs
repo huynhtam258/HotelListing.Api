@@ -5,7 +5,7 @@ namespace HotelListing.API.Data;
 
 public class ApiKey
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
 
     [MaxLength(256)]
     public string Key { get; set; } = string.Empty;
