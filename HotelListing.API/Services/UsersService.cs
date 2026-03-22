@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 namespace HotelListing.API.Services;
 
-public class UsersService(UserManager<ApplicationUser> userManager, IConfiguration configuration) : IUsersService
+public class UsersService(UserManager<ApplicationUser> userManager, HotelListingDbContext hotelListingDbContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : IUsersService
 {
 
     public async Task<Result<RegisteredUserDto>> RegisterAsync(RegisterUserDto registerUserDto)
@@ -31,6 +31,18 @@ public class UsersService(UserManager<ApplicationUser> userManager, IConfigurati
         }
 
         await userManager.AddToRoleAsync(user, registerUserDto.Role);
+
+        // If Hotel Admin, add to HotelAdmins table
+        if (registerUserDto.Role == "Hotel Admin")
+        {
+            var hotelAdmin = hotelListingDbContext.HotelAdmins.Add(
+                new HotelAdmin
+                {
+                    UserId = user.Id,
+                    HotelId = registerUserDto.AssociatedHotelId.GetValueOrDefault()
+                });
+            await hotelListingDbContext.SaveChangesAsync();
+        }
 
         var regiteredUser = new RegisteredUserDto
         {
@@ -63,6 +75,16 @@ public class UsersService(UserManager<ApplicationUser> userManager, IConfigurati
 
         return Result<string>.Success(token);
     }
+
+    public string UserId => httpContextAccessor?
+            .HttpContext?
+            .User?
+            .FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+        ?? httpContextAccessor?
+            .HttpContext?
+            .User?
+            .FindFirst(ClaimTypes.NameIdentifier)?.Value
+        ?? string.Empty;
 
     private async Task<string> GenerateToken(ApplicationUser user)
     {

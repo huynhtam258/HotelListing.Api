@@ -13,7 +13,7 @@ public class Booking
     public DateOnly CheckOut { get; set; }
     public int Guests { get; set; }
     public decimal TotalPrice { get; set; }
-    public DateTime CreateAtUTC { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUTC { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAtUTC { get; set; }
     public BookingStatus Status { get; set; } = BookingStatus.Pending;
 }
