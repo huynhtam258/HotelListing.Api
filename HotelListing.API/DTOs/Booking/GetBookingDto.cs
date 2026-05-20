@@ -8,8 +8,8 @@ public record GetBookingDto(
     DateOnly CheckOut,
     int Guests,
     string Status,
-    DateTime CreatedAtStatus,
-    DateTime? UpdatedAtStatus
+    DateTime CreatedAtUtc,
+    DateTime? UpdatedAtUtc
 );
 
 public record CreateBookingDto

@@ -51,8 +51,8 @@ public sealed class BookingMappingProfile : Profile
             .ForMember(d => d.UserId, o => o.Ignore())
             .ForMember(d => d.TotalPrice, o => o.Ignore())
             .ForMember(d => d.Status, o => o.Ignore())
-            .ForMember(d => d.CreatedAtUTC, o => o.Ignore())
-            .ForMember(d => d.UpdatedAtUTC, o => o.Ignore())
+            .ForMember(d => d.CreatedAtUtc, o => o.Ignore())
+            .ForMember(d => d.UpdatedAtUtc, o => o.Ignore())
             .ForMember(d => d.Hotel, o => o.Ignore());
 
         CreateMap<UpdateBookingDto, Booking>()
@@ -60,8 +60,8 @@ public sealed class BookingMappingProfile : Profile
             .ForMember(d => d.UserId, o => o.Ignore())
             .ForMember(d => d.TotalPrice, o => o.Ignore())
             .ForMember(d => d.Status, o => o.Ignore())
-            .ForMember(d => d.CreatedAtUTC, o => o.Ignore())
-            .ForMember(d => d.UpdatedAtUTC, o => o.Ignore())
+            .ForMember(d => d.CreatedAtUtc, o => o.Ignore())
+            .ForMember(d => d.UpdatedAtUtc, o => o.Ignore())
             .ForMember(d => d.Hotel, o => o.Ignore());
     }
 }

@@ -100,7 +100,7 @@ public class BookingsService(HotelListingDbContext context, IUsersService usersS
         var perNight = booking.Hotel!.PerNightRate;
         var nights = dto.CheckOut.DayNumber - dto.CheckIn.DayNumber;
         booking.TotalPrice = perNight * nights;
-        booking.UpdatedAtUTC = DateTime.UtcNow;
+        booking.UpdatedAtUtc = DateTime.UtcNow;
 
         await context.SaveChangesAsync();
 
@@ -146,7 +146,7 @@ public class BookingsService(HotelListingDbContext context, IUsersService usersS
             return Result.Failure(new Error(ErrorCodes.Conflict, "This booking has already been cancelled."));
 
         booking.Status = BookingStatus.Cancelled;
-        booking.UpdatedAtUTC = DateTime.UtcNow;
+        booking.UpdatedAtUtc = DateTime.UtcNow;
         await context.SaveChangesAsync();
 
         return Result.Success();
@@ -168,7 +168,7 @@ public class BookingsService(HotelListingDbContext context, IUsersService usersS
             return Result.Failure(new Error(ErrorCodes.Conflict, "This booking has already been cancelled."));
 
         booking.Status = BookingStatus.Cancelled;
-        booking.UpdatedAtUTC = DateTime.UtcNow;
+        booking.UpdatedAtUtc = DateTime.UtcNow;
         await context.SaveChangesAsync();
 
         return Result.Success();
@@ -191,7 +191,7 @@ public class BookingsService(HotelListingDbContext context, IUsersService usersS
             return Result.Failure(new Error(ErrorCodes.Conflict, "This booking has already been cancelled."));
 
         booking.Status = BookingStatus.Confirmed;
-        booking.UpdatedAtUTC = DateTime.UtcNow;
+        booking.UpdatedAtUtc = DateTime.UtcNow;
         await context.SaveChangesAsync();
 
         return Result.Success();
