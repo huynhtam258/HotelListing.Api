@@ -3,7 +3,7 @@ using HotelListing.API.Results;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace HotelListing.Api.Controllers;
+namespace HotelListing.API.Controllers;
 
 public abstract class BaseApiController : ControllerBase
 {

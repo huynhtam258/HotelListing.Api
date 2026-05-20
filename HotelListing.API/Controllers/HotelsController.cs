@@ -3,7 +3,7 @@ using HotelListing.API.DTOs.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelListing.Api.Controllers;
+namespace HotelListing.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

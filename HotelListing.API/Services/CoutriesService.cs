@@ -7,7 +7,7 @@ using HotelListing.API.DTOs.Country;
 using HotelListing.API.Results;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotelListing.Api.Services;
+namespace HotelListing.API.Services;
 
 public class CountriesService(HotelListingDbContext context, IMapper mapper) : ICountriesService
 {

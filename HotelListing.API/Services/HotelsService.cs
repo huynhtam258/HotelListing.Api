@@ -8,7 +8,7 @@ using HotelListing.API.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace HotelListing.Api.Services;
+namespace HotelListing.API.Services;
 
 public class HotelsService(HotelListingDbContext context,
     ICountriesService countriesService,

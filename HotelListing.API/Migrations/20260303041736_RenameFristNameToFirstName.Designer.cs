@@ -25,7 +25,7 @@ namespace HotelListing.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotelListing.API.Data.ApiKey", b =>
+            modelBuilder.Entity("HotelListing.API.Data.APIKey", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
