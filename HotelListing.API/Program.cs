@@ -1,10 +1,10 @@
-
-using HotelListing.API.Services;
+﻿
+using HotelListing.API.Application.Services;
 using HotelListing.API.Common.Constants;
-using HotelListing.API.Contracts;
+using HotelListing.API.Application.Contracts;
 using HotelListing.API.Domain;
 using HotelListing.API.Handlers;
-using HotelListing.API.MappingProfiles;
+using HotelListing.API.Application.MappingProfiles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
