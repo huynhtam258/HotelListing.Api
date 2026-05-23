@@ -1,5 +1,5 @@
 ﻿using HotelListing.API.Common.Constants;
-using HotelListing.API.Data;
+using HotelListing.API.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;

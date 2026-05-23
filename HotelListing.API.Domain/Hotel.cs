@@ -1,4 +1,4 @@
-﻿namespace HotelListing.API.Data
+﻿namespace HotelListing.API.Domain
 {
     public class Hotel
     {

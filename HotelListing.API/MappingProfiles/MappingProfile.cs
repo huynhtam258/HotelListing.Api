@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using HotelListing.API.Data;
+using HotelListing.API.Domain;
 using HotelListing.API.DTOs.Booking;
 using HotelListing.API.DTOs.Country;
 using HotelListing.API.DTOs.Hotel;

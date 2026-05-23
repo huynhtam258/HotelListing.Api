@@ -1,9 +1,9 @@
-﻿using HotelListing.API.Common.Constants;
+﻿using HotelListing.API.Common.Constants;            
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HotelListing.API.Data.Configurations;
+namespace HotelListing.API.Domain.Configurations;
 
 public class RoleConfiguration: IEntityTypeConfiguration<IdentityRole>
 {

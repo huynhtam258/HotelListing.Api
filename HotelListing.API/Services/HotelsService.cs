@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using HotelListing.API.Common.Constants;
 using HotelListing.API.Contracts;
-using HotelListing.API.Data;
+using HotelListing.API.Domain;
 using HotelListing.API.DTOs.Hotel;
 using HotelListing.API.Common.Results;
 using Microsoft.EntityFrameworkCore;

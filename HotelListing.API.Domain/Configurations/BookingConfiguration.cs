@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-namespace HotelListing.API.Data.Configurations;
+namespace HotelListing.API.Domain.Configurations;
 
 public class BookingConfiguration: IEntityTypeConfiguration<Booking>
 {

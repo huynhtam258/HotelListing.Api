@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HotelListing.API.Common\HotelListing.API.Common.csproj" />
+	<ProjectReference Include="..\HotelListing.API.Domain\HotelListing.API.Domain.csproj" />
   </ItemGroup>
 
 </Project>
