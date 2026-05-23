@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HotelListing.API.Constants;
+using HotelListing.API.Common.Constants;
 using HotelListing.API.Contracts;
 using HotelListing.API.Data;
 using HotelListing.API.DTOs.Hotel;
-using HotelListing.API.Results;
+using HotelListing.API.Common.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

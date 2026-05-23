@@ -1,4 +1,4 @@
-﻿namespace HotelListing.API.Results;
+﻿namespace HotelListing.API.Common.Results;
 
 public readonly record struct Error(string Code, string Description)
 {

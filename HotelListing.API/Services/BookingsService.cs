@@ -6,9 +6,9 @@ using HotelListing.API.Contracts;
 using HotelListing.API.Data;
 using HotelListing.API.Data.Enums;
 using HotelListing.API.DTOs.Booking;
-using HotelListing.API.Results;
+using HotelListing.API.Common.Results;
 using Microsoft.EntityFrameworkCore;
-using HotelListing.API.Constants;
+using HotelListing.API.Common.Constants;
 using System.IdentityModel.Tokens.Jwt;
 namespace HotelListing.API.Services;
 

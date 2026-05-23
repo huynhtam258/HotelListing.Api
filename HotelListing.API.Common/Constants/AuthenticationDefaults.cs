@@ -1,4 +1,4 @@
-﻿namespace HotelListing.API.Constants;
+﻿namespace HotelListing.API.Common.Constants;
 
 public class AuthenticationDefaults
 {
