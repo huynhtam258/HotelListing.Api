@@ -60,7 +60,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IBookingService, BookingsService>();
 builder.Services.AddScoped<IApiKeyValidatorService, ApiKeyValidatorService>();
 
-builder.Services.AddAutoMapper(cfg => { }, Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(cfg => { }, typeof(HotelMappingProfile).Assembly);
 
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
