@@ -4,15 +4,22 @@ using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Booking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using HotelListing.API.Common.Models.Paging;
 
 [Route("api/hotels/{hotelId:int}/bookings")]
 [ApiController]
 public class HotelBookingsController(IBookingService bookingService): BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GetBookingDto>>> GetBookings([FromRoute] int hotelId)
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookings([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
     {
-        var result = await bookingService.GetBookingsForHotelAsync(hotelId);
+        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters);
+        return ToActionResult(result);
+    }
+
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetUserBookingsForHotelAsync([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
+    {
+        var result = await bookingService.GetUserBookingsForHotelAsync(hotelId, paginationParameters);
         return ToActionResult(result);
     }
 
@@ -42,9 +49,9 @@ public class HotelBookingsController(IBookingService bookingService): BaseApiCon
 
     [HttpGet("admin")]
     [HotelOrSystemAdmin]
-    public async Task<ActionResult<IEnumerable<GetBookingDto>>> GetBookingsAdmin([FromRoute] int hotelId)
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookingsAdmin([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
     {
-        var result = await bookingService.GetBookingsForHotelAsync(hotelId);
+        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters);
         return ToActionResult(result);
     }
 

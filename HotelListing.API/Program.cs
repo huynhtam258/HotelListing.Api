@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
-using HotelListing.API.Common.Models;
+using HotelListing.API.Common.Models.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 

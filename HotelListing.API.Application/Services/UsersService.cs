@@ -7,11 +7,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.CodeAnalysis.Options;
-using HotelListing.API.Common.Models;
 using Microsoft.Extensions.Options;
 using HotelListing.API.Application.DTOs.Auth;
 using HotelListing.API.Application.Contracts;
 using Microsoft.AspNetCore.Http;
+using HotelListing.API.Common.Models.Config;
 namespace HotelListing.API.Application.Services;
 
 public class UsersService(UserManager<ApplicationUser> userManager, HotelListingDbContext hotelListingDbContext, IOptions<JwtSettings> jwtOptions, IHttpContextAccessor httpContextAccessor) : IUsersService
