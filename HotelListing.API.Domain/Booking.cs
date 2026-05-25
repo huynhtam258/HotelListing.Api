@@ -1,4 +1,4 @@
-﻿using HotelListing.API.Domain.Enums;
+﻿using HotelListing.API.Common.Enums;
 
 namespace HotelListing.API.Domain;
 

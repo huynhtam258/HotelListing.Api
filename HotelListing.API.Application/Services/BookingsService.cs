@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using AutoMapper.QueryableExtensions;
 using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Booking;
@@ -9,7 +7,7 @@ using HotelListing.API.Common.Models.Extensions;
 using HotelListing.API.Common.Models.Paging;
 using HotelListing.API.Common.Results;
 using HotelListing.API.Domain;
-using HotelListing.API.Domain.Enums;
+using HotelListing.API.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 namespace HotelListing.API.Application.Services;
