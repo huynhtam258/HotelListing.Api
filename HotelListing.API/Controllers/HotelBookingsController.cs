@@ -1,25 +1,26 @@
-﻿using HotelListing.API.AuthorizationFilters;
-using HotelListing.API.Controllers;
-using HotelListing.API.Application.Contracts;
+﻿using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Booking;
+using HotelListing.API.AuthorizationFilters;
+using HotelListing.API.Common.Models.Filtering;
+using HotelListing.API.Common.Models.Paging;
+using HotelListing.API.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using HotelListing.API.Common.Models.Paging;
 
 [Route("api/hotels/{hotelId:int}/bookings")]
 [ApiController]
 public class HotelBookingsController(IBookingService bookingService): BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookings([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookings([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
     {
-        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters);
+        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters, filters);
         return ToActionResult(result);
     }
 
-    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetUserBookingsForHotelAsync([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetUserBookingsForHotelAsync([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
     {
-        var result = await bookingService.GetUserBookingsForHotelAsync(hotelId, paginationParameters);
+        var result = await bookingService.GetUserBookingsForHotelAsync(hotelId, paginationParameters, filters);
         return ToActionResult(result);
     }
 
@@ -49,9 +50,9 @@ public class HotelBookingsController(IBookingService bookingService): BaseApiCon
 
     [HttpGet("admin")]
     [HotelOrSystemAdmin]
-    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookingsAdmin([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters)
+    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookingsAdmin([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
     {
-        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters);
+        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters, filters);
         return ToActionResult(result);
     }
 
