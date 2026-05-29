@@ -27,7 +27,8 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
             || EF.Functions.Like(c.ShortName, $"{term}"));
         }
 
-        var countries = await context.Countries
+        var countries = await query
+            .AsNoTracking()
             .ProjectTo<GetCountriesDto>(mapper.ConfigurationProvider)
             .ToListAsync();
 
@@ -37,6 +38,7 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
     public async Task<Result<GetCountryDto>> GetCountryAsync(int id)
     {
         var country = await context.Countries
+            .AsNoTracking()
             .Where(q => q.CountryId == id)
             .ProjectTo<GetCountryDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
@@ -60,10 +62,7 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
             context.Countries.Add(country);
             await context.SaveChangesAsync();
 
-            var dto = await context.Countries
-                .Where(c => c.CountryId == country.CountryId)
-                .ProjectTo<GetCountryDto>(mapper.ConfigurationProvider)
-                .FirstAsync();
+            var dto = mapper.Map<GetCountryDto>(createDto);
 
             return Result<GetCountryDto>.Success(dto);
         }
@@ -123,12 +122,15 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
 
     public async Task<bool> CountryExistsAsync(int id)
     {
-        return await context.Countries.AnyAsync(e => e.CountryId == id);
+        return await context.Countries
+            .AsNoTracking()
+            .AnyAsync(e => e.CountryId == id);
     }
 
     public async Task<bool> CountryExistsAsync(string name)
     {
         return await context.Countries
+            .AsNoTracking()
             .AnyAsync(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
     }
 
@@ -194,8 +196,9 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
             return Result.BadRequest(new Error(ErrorCodes.Validation, "Cannot modify the Id field"));
         }
 
+        var normalizedName = countryDto.Name.ToLower().Trim();
         var duplicateExists = await context.Countries
-            .AnyAsync(c => c.Name.ToLower().Trim() == countryDto.Name.ToLower().Trim()
+            .AnyAsync(c => c.Name.ToLower().Trim() == normalizedName
                 && c.CountryId != id);
         
         if (duplicateExists)
@@ -205,7 +208,9 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
         }
 
         mapper.Map(countryDto, country);
+        context.Entry(country).State = EntityState.Modified;
         await context.SaveChangesAsync();
+
         return Result.Success();
     }
 }
