@@ -9,6 +9,7 @@ using HotelListing.API.Common.Models.Filtering;
 using HotelListing.API.Common.Models.Paging;
 using HotelListing.API.Common.Results;
 using HotelListing.API.Domain;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelListing.API.Application.Services;
@@ -175,5 +176,36 @@ public class CountriesService(HotelListingDbContext context, IMapper mapper) : I
         };
 
         return Result<GetCountryHotelsDto>.Success(result);
+    }
+
+    public async Task<Result> PatchCountryAsync(int id, JsonPatchDocument<UpdateCountryDto> patchDoc)
+    {
+        var country = await context.Countries.FindAsync(id);
+        if (country is null)
+        {
+            return Result.NotFound(new Error(ErrorCodes.NotFound, $"Country '{id}' was not found"));
+        }
+
+        var countryDto = mapper.Map<UpdateCountryDto>(country);
+        patchDoc.ApplyTo(countryDto);
+
+        if (countryDto.Id != id)
+        {
+            return Result.BadRequest(new Error(ErrorCodes.Validation, "Cannot modify the Id field"));
+        }
+
+        var duplicateExists = await context.Countries
+            .AnyAsync(c => c.Name.ToLower().Trim() == countryDto.Name.ToLower().Trim()
+                && c.CountryId != id);
+        
+        if (duplicateExists)
+        {
+            return Result.Failure(new Error(ErrorCodes.Conflict,
+                $"Country with name '{countryDto.Name}' already exists."));
+        }
+
+        mapper.Map(countryDto, country);
+        await context.SaveChangesAsync();
+        return Result.Success();
     }
 }

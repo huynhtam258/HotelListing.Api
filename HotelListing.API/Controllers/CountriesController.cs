@@ -1,4 +1,5 @@
-﻿using HotelListing.API.Application.Contracts;
+﻿using System.Text.Json.Serialization.Metadata;
+using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Country;
 using HotelListing.API.Application.DTOs.Hotel;
 using HotelListing.API.Common.Constants;
@@ -6,6 +7,7 @@ using HotelListing.API.Common.Models.Filtering;
 using HotelListing.API.Common.Models.Paging;
 using HotelListing.API.Common.Results;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelListing.API.Controllers;
@@ -40,16 +42,30 @@ public class CountriesController(ICountriesService countriesService) : BaseApiCo
 
     // PUT: api/Countries/5
     [HttpPut("{id}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task<IActionResult> PutCountry(int id, UpdateCountryDto updateDto)
     {
         var result = await countriesService.UpdateCountryAsync(id, updateDto);
         return ToActionResult(result);
     }
+    
+    // PATCH: api/Countries/5
+    [HttpPatch("{id}")]
+    [Authorize(Roles = RoleNames.Administrator)]
+    public async Task<IActionResult> PatchCountry(int id, [FromBody] JsonPatchDocument<UpdateCountryDto> patchDoc)
+    {
+        if (patchDoc == null)
+        {
+            return BadRequest("Patch document is required.");
+        }
+
+        var result = await countriesService.PatchCountryAsync(id, patchDoc);
+        return ToActionResult(result);
+    }
 
     // POST: api/Countries
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task<ActionResult<GetCountryDto>> PostCountry(CreateCountryDto createDto)
     {
         var result = await countriesService.CreateCountryAsync(createDto);
@@ -60,7 +76,7 @@ public class CountriesController(ICountriesService countriesService) : BaseApiCo
 
     // DELETE: api/Countries/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task<IActionResult> DeleteCountry(int id)
     {
         var result = await countriesService.DeleteCountryAsync(id);
