@@ -7,5 +7,5 @@ public class HotelAdmin
     public Hotel? Hotel { get; set; }
     public ApplicationUser? User { get; set; }
     public int HotelId { get; set; }
-    public string UserId { get; set; } = string.Empty;
+    public required string UserId { get; set; }
 }

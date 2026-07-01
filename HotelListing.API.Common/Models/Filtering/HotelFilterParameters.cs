@@ -1,6 +1,6 @@
 ﻿using HotelListing.API.Common.Models.Filtering;
 
-namespace HotelListing.Api.Common.Models.Filtering;
+namespace HotelListing.API.Common.Models.Filtering;
 
 public class HotelFilterParameters : BaseFilterParameters
 {

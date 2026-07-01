@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HotelListing.Api.Common.Models.Filtering;
+using HotelListing.API.Common.Models.Filtering;
 using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Hotel;
 using HotelListing.API.Common.Constants;
