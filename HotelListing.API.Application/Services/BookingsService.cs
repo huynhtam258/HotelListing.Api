@@ -11,7 +11,7 @@ using HotelListing.API.Common.Results;
 using HotelListing.API.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
-using static NuGet.Packaging.PackagingConstants;
+
 namespace HotelListing.API.Application.Services;
 
 public class BookingsService(HotelListingDbContext context, IUsersService usersService, IMapper mapper) : IBookingService
