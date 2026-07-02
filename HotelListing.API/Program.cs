@@ -1,10 +1,11 @@
-﻿
+﻿using HotelListing.API.Application.Contracts;
+using HotelListing.API.Application.MappingProfiles;
 using HotelListing.API.Application.Services;
+using HotelListing.API.CachePolicies;
 using HotelListing.API.Common.Constants;
-using HotelListing.API.Application.Contracts;
+using HotelListing.API.Common.Models.Config;
 using HotelListing.API.Domain;
 using HotelListing.API.Handlers;
-using HotelListing.API.Application.MappingProfiles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -12,12 +13,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
-using HotelListing.API.Common.Models.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the IoC container.
 var connectionString = builder.Configuration.GetConnectionString("HotelListingDbConnectionString");
+
 builder.Services.AddDbContextPool<HotelListingDbContext>(options => {
     options.UseSqlServer(connectionString, sqlOptions => {
         sqlOptions.CommandTimeout(30);
@@ -34,7 +35,8 @@ builder.Services.AddDbContextPool<HotelListingDbContext>(options => {
         options.EnableDetailedErrors();
     }
 
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    // ? Optional: Global no-tracking (only if most operations are read-only)
+    // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 }, poolSize: 128);
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
@@ -48,11 +50,14 @@ if (string.IsNullOrWhiteSpace(jwtSettings.Key))
 {
     throw new InvalidOperationException("JwtSettings:Key is not configured.");
 }
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -62,7 +67,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings.Issuer,
         ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key ?? string.Empty)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
         ClockSkew = TimeSpan.Zero // Default is 5 minutes
     };
 })
@@ -88,7 +93,15 @@ builder.Services.AddControllers()
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddMemoryCache();
+//builder.Services.AddMemoryCache();
+builder.Services.AddOutputCache(options => {
+    options.AddPolicy(CacheConstants.AuthenticatedUserCachingPolicy, builder =>
+    {
+        builder.AddPolicy<AuthenticatedUserCachingPolicy>()
+        .SetCacheKeyPrefix(CacheConstants.AuthenticatedUserCachingPolicyTag);
+    }, true);
+});
+
 
 var app = builder.Build();
 
@@ -102,8 +115,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseOutputCache();
 
 app.MapControllers();
 
