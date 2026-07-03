@@ -1,14 +1,19 @@
 ﻿using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.DTOs.Booking;
 using HotelListing.API.AuthorizationFilters;
+using HotelListing.API.Common.Constants;
 using HotelListing.API.Common.Models.Filtering;
 using HotelListing.API.Common.Models.Paging;
 using HotelListing.API.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 [Route("api/hotels/{hotelId:int}/bookings")]
 [ApiController]
+[Authorize]
+[EnableRateLimiting(RateLimitingConstants.PerUserPolicy)]
 public class HotelBookingsController(IBookingService bookingService): BaseApiController
 {
     [HttpGet]

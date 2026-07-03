@@ -9,12 +9,13 @@ using HotelListing.API.Common.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HotelListing.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[EnableRateLimiting(RateLimitingConstants.FixedPolicy)]
 public class CountriesController(ICountriesService countriesService) : BaseApiController
 {
     // GET: api/Countries
