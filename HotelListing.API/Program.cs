@@ -1,4 +1,5 @@
-﻿using HotelListing.API.Application.Contracts;
+﻿using AutoMapper;
+using HotelListing.API.Application.Contracts;
 using HotelListing.API.Application.MappingProfiles;
 using HotelListing.API.Application.Services;
 using HotelListing.API.CachePolicies;
@@ -14,16 +15,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.RateLimiting;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the IoC container.
 var connectionString = builder.Configuration.GetConnectionString("HotelListingDbConnectionString");
 
-builder.Services.AddDbContextPool<HotelListingDbContext>(options =>
-{
-    options.UseSqlServer(connectionString, sqlOptions =>
-    {
+builder.Services.AddDbContextPool<HotelListingDbContext>(options => {
+    options.UseSqlServer(connectionString, sqlOptions => {
         sqlOptions.CommandTimeout(30);
         sqlOptions.EnableRetryOnFailure(
             maxRetryCount: 3,
@@ -97,8 +97,7 @@ builder.Services.AddControllers()
 builder.Services.AddOpenApi();
 
 //builder.Services.AddMemoryCache();
-builder.Services.AddOutputCache(options =>
-{
+builder.Services.AddOutputCache(options => {
     options.AddPolicy(CacheConstants.AuthenticatedUserCachingPolicy, builder =>
     {
         builder.AddPolicy<AuthenticatedUserCachingPolicy>()
@@ -106,8 +105,7 @@ builder.Services.AddOutputCache(options =>
     }, true);
 });
 
-builder.Services.AddRateLimiter(options =>
-{
+builder.Services.AddRateLimiter(options => {
     options.AddFixedWindowLimiter(RateLimitingConstants.FixedPolicy, opt =>
     {
         opt.Window = TimeSpan.FromMinutes(1);
