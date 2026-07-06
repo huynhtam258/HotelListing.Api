@@ -5,7 +5,9 @@ namespace HotelListing.API.Common.Models.Extensions;
 
 public static class QueryableExtensions
 {
-    public static async Task<PagedResult<T>> ToPagedResultAsync<T>(this IQueryable<T> source, PaginationParameters paginationParameters)
+    public static async Task<PagedResult<T>> ToPagedResultAsync<T>(
+       this IQueryable<T> source,
+       PaginationParameters paginationParameters)
     {
         var totalCount = await source.CountAsync();
         var items = await source
@@ -14,7 +16,8 @@ public static class QueryableExtensions
             .ToListAsync();
 
         var totalPages = (int)Math.Ceiling(totalCount / (double)paginationParameters.PageSize);
-        var metaData = new PaginationMetaData
+
+        var metadata = new PaginationMetadata
         {
             CurrentPage = paginationParameters.PageNumber,
             PageSize = paginationParameters.PageSize,
@@ -23,11 +26,11 @@ public static class QueryableExtensions
             HasNext = paginationParameters.PageNumber < totalPages,
             HasPrevious = paginationParameters.PageNumber > 1
         };
-        
+
         return new PagedResult<T>
         {
             Data = items,
-            Metadata = metaData
+            Metadata = metadata
         };
     }
 }

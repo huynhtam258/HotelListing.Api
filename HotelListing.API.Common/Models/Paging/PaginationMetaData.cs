@@ -1,6 +1,6 @@
 namespace HotelListing.API.Common.Models.Paging;
 
-public class PaginationMetaData
+public class PaginationMetadata
 {
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }
