@@ -228,14 +228,13 @@ try
             failureStatus: HealthStatus.Unhealthy,
             tags: ["db", "sql"]);
 
-    builder.Services.AddHealthChecksUI(setup =>
-    {
-        setup.SetEvaluationTimeInSeconds(10); // Check every 10 seconds
-        setup.MaximumHistoryEntriesPerEndpoint(50);
-        setup.AddHealthCheckEndpoint("HotelListing API", "/healthz");
-    })
-    .AddInMemoryStorage();
-
+    // builder.Services.AddHealthChecksUI(setup =>
+    // {
+    //     setup.SetEvaluationTimeInSeconds(10); // Check every 10 seconds
+    //     setup.MaximumHistoryEntriesPerEndpoint(50);
+    //     setup.AddHealthCheckEndpoint("HotelListing API", "/healthz");
+    // })
+    // .AddInMemoryStorage();
     builder.Services.AddApiVersioning(options =>
     {
         options.AssumeDefaultVersionWhenUnspecified = true;
@@ -437,11 +436,11 @@ try
         Predicate = check => check.Tags.Contains("db")
     });
 
-    app.MapHealthChecksUI(options =>
-    {
-        options.UIPath = "/healthchecks-ui";
-        options.ApiPath = "/healthchecks-api";
-    });
+    // app.MapHealthChecksUI(options =>
+    // {
+    //     options.UIPath = "/healthchecks-ui";
+    //     options.ApiPath = "/healthchecks-api";
+    // });
 
     app.UseRateLimiter();
 
