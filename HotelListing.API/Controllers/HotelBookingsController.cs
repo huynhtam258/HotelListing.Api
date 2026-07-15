@@ -16,13 +16,14 @@ using Microsoft.AspNetCore.RateLimiting;
 [EnableRateLimiting(RateLimitingConstants.PerUserPolicy)]
 public class HotelBookingsController(IBookingService bookingService): BaseApiController
 {
-    [HttpGet]
-    public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookings([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
-    {
-        var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters, filters);
-        return ToActionResult(result);
-    }
+    // [HttpGet]
+    // public async Task<ActionResult<PagedResult<GetBookingDto>>> GetBookings([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
+    // {
+    //     var result = await bookingService.GetBookingsForHotelAsync(hotelId, paginationParameters, filters);
+    //     return ToActionResult(result);
+    // }
 
+    [HttpGet]
     public async Task<ActionResult<PagedResult<GetBookingDto>>> GetUserBookingsForHotelAsync([FromRoute] int hotelId, [FromQuery] PaginationParameters paginationParameters, [FromQuery] BookingFilterParameters filters)
     {
         var result = await bookingService.GetUserBookingsForHotelAsync(hotelId, paginationParameters, filters);
